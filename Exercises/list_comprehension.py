@@ -5,6 +5,7 @@
 
 # 1. ✅ Generate a list of numbers from `1` to `10`.
 
+# pyright: ignore
 
 
 ans = [i for i in range(1, 11)]
@@ -121,18 +122,18 @@ nested_list = [1, [2, 3], [4, 5]]
 #         break
 
 
-
 # - Computer picks random number 1-100
 # - User gets 7 attempts
 # - After each guess, show "Higher" or "Lower"
 # - Show remaining attempts
 # - Congratulate on win or reveal answer on loss
 
+
 def guessing_game(number):
     attempts = 7
-    number = random.randint(1,100)
+    number = random.randint(1, 100)
 
-    for i in range(1,attempts+1):
+    for i in range(1, attempts + 1):
         guess = int(input("Enter your guess (1-100): "))
         if guess == number:
             print("Congratulations! You've guessed the number!")
@@ -146,8 +147,8 @@ def guessing_game(number):
             print("Lower!")
         print(f"Attempts remaining: {attempts - i}")
 
-# guessing_game(8)
 
+# guessing_game(8)
 
 
 # === TASK MANAGER ===
@@ -172,21 +173,65 @@ def task_manager():
         print("4. Delete Task")
         print("5. View Statistics")
         print("6. Exit")
-        choice= input("Choose option: ")
+        choice = input("Choose option: ")
 
-        if choice == '1':
+        if choice == "1":
             print("\n--- Add Task ---")
             title = input("Enter task title: ")
             tasks.append({"title": {title}, "completed": False})
             print("Task added.")
-        elif choice == '2':
+        elif choice == "2":
             print("\n--- View Tasks ---")
             if not tasks:
                 print("No tasks available.")
             else:
-                for idx,task in enumerate(tasks,1):
+                for idx, task in enumerate(tasks, 1):
                     status = "Completed" if task["completed"] else "Pending"
+
                     print(f"{idx}. {task['title']} - {status}")
-                    print(f"{idx}. {task['title']} - {status}")
+        elif choice == "3":
+            print("\n --- Tasks Lists ---")
+            if not tasks:
+                print("No tasks Available")
+            else:
+                for idx, task in enumerate(tasks):
+                    print(f"{idx + 1}.{task}")
+                task_num = int(input("Enter task number to mark complete: "))
+                if 0< task_num <= len(tasks):
+                    # Mark task as complete
+                    tasks[task_num-1]["completed"]=True
+                    print("Task marked as complete.")
+                else:
+                    print("invalid task number")
+        elif choice == "4":
+            print("\n ---Delete Task ---")
+            if not tasks:
+                print("No tasks Available")
+            else:
+                for idx, task in enumerate(tasks):
+                        print(f"{idx + 1}.{task}")
+                task_num = int(input("Enter task number to delete: "))
+                if 0<task_num <= len(tasks):
+                    tasks.pop(task_num-1)
+                    print("Task deleted.")
+                else:
+                    print("Invalid task number")
+        elif choice == "5":
+            print("\n --- Statistics ---")
+            total_tasks = len(tasks)
+            completed_tasks = sum(1 for task in tasks if task["completed"])
+            incomplete_tasks = total_tasks - completed_tasks
+
+            print(f"Total Tasks: {total_tasks}")
+            print(f"Completed Tasks: {completed_tasks}")
+            print(f"Incomplete Tasks: {incomplete_tasks}")
+        elif choice == "6":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option. Please choose a valid option.")
+
+
 
 task_manager()
+
